@@ -1,0 +1,34 @@
+.layout {
+  min-height: 100vh !important;
+}
+
+.header {
+  padding: 0;
+  background-color: "#fff";
+}
+
+.content {
+  margin: 16px;
+}
+
+.footer {
+  text-align: center;
+}
+
+.side_header {
+  display: flex;
+  align-items: center;
+  padding: 1rem 0;
+  padding-left: 24px;
+  overflow-x: hidden;
+}
+
+.username {
+  margin: 0;
+  margin-left: 0.5rem;
+  color: white;
+}
+
+.range_picker {
+  margin-bottom: 1rem;
+}

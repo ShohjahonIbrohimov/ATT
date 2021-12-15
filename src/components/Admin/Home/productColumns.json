@@ -1,0 +1,36 @@
+[
+  {
+    "title": "UZ",
+    "dataIndex": "lang",
+    "key": "uz"
+  },
+  {
+    "title": "RUS",
+    "dataIndex": "lang",
+    "key": "ru"
+  },
+  {
+    "title": "UZ description",
+    "dataIndex": "desc",
+    "key": "uz",
+    "width": "10%"
+  },
+  {
+    "title": "RU description",
+    "dataIndex": "desc",
+    "key": "ru",
+    "width": "10%"
+  },
+  {
+    "title": "Price",
+    "dataIndex": "price",
+    "key": "price",
+    "width": "10%"
+  },
+  {
+    "title": "Actions",
+    "dataIndex": "action",
+    "key": "action",
+    "width": "10%"
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "title": "UZ",
+    "dataIndex": "lang",
+    "key": "uz"
+  },
+  {
+    "title": "RUS",
+    "dataIndex": "lang",
+    "key": "ru"
+  },
+  {
+    "title": "Actions",
+    "dataIndex": "action",
+    "key": "action",
+    "width": "10%"
+  }
+]
