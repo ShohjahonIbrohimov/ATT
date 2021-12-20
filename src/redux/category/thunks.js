@@ -43,14 +43,16 @@ export const addStudent = createAsyncThunk(
 );
 
 // GET
-const getGroupAsync = async (type, { rejectWithValue }) => {
+const getGroupAsync = async (data, { rejectWithValue }) => {
   try {
     const res = await axios({
-      url: `${baseurl}/control_system/group/3/`,
+      url: `${baseurl}/control_system/group/${data.id}/`,
       method: "GET",
     });
-    return { res, type };
+    data.onSuccess();
+    return { res };
   } catch (err) {
+    data.onSuccess();
     // Handle Error Here
     return rejectWithValue([], err);
   }

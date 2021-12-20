@@ -17,16 +17,23 @@ const columns = [
   },
 ];
 
-const StudentsTable = () => {
+const GroupStudents = () => {
   const [loading, setloading] = useState(false);
   const dispatch = useDispatch();
-  const students = useSelector((state) => state.studentReducer.all);
-  const [selectedKeys, setselectedKeys] = useState([]);
+  const students = useSelector(
+    (state) => state?.categoryReducer?.group?.students
+  );
+  const currentGroup = useSelector(
+    (state) => state?.categoryReducer?.currentGroup
+  );
+
+  const onSuccess = () => {
+    setloading(false);
+  };
 
   useEffect(() => {
     setloading(true);
-    dispatch(getStudents(setloading));
-    dispatch(getGroup());
+    dispatch(getGroup({ id: currentGroup.id, onSuccess }));
   }, []);
 
   return (
@@ -37,7 +44,6 @@ const StudentsTable = () => {
         loading={loading}
         rowSelection={{
           onChange: (selectedRowKeys, selectedRows) => {
-            setselectedKeys(selectedRowKeys);
             dispatch(setSelected(selectedRowKeys));
           },
         }}
@@ -48,4 +54,4 @@ const StudentsTable = () => {
   );
 };
 
-export default StudentsTable;
+export default GroupStudents;

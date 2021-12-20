@@ -14,9 +14,13 @@ import {
   deleteCat,
   update,
   addStudent,
+  getGroup,
 } from "../../../redux/category/thunks";
 import { useDispatch, useSelector } from "react-redux";
 import AddStudent from "./AddStudent";
+import GroupStudents from "./GroupStudents";
+import { setCurrentGroup } from "../../../redux/category/categorySlice";
+import TakeAttendance from "./TakeAttendance";
 
 const success = () => {
   message.success("Success");
@@ -27,6 +31,7 @@ const error = () => {
 };
 
 const Sample = ({ searchInput }) => {
+  const [tabValue, settabValue] = useState(0);
   const [modal, setmodal] = useState(0);
   const [orders, setorders] = useState([]);
   const [visible, setvisible] = useState(false);
@@ -34,10 +39,8 @@ const Sample = ({ searchInput }) => {
   const [searchText, setsearchText] = useState("");
   const [searchedColumn, setsearchedColumn] = useState("");
   const dispatch = useDispatch();
-  const selectedStudents = useSelector(
-    (state) => state.studentReducer.selected
-  );
-  const [addStudentLoading, setaddStudentLoading] = useState(false);
+
+  const group = useSelector((state) => state.categoryReducer.group);
 
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -197,6 +200,7 @@ const Sample = ({ searchInput }) => {
   ];
 
   const handleOpenModal = (row) => {
+    dispatch(setCurrentGroup(row));
     setdefaults(row);
     setvisible(true);
   };
@@ -235,17 +239,12 @@ const Sample = ({ searchInput }) => {
     dispatch(deleteCat({ data, getOrders }));
   };
 
-  const handleAddStudent = () => {
-    setaddStudentLoading(true);
-    dispatch(
-      addStudent({
-        data: {
-          user: selectedStudents[0],
-          group: defaults?.id,
-        },
-        setLoading: setaddStudentLoading,
-      })
-    );
+  const handleChange = (e) => {
+    let value = e.target.value;
+    settabValue(value);
+    if (value === 1) {
+      dispatch(getGroup(defaults.id));
+    }
   };
 
   return (
@@ -261,22 +260,17 @@ const Sample = ({ searchInput }) => {
         )}
         {modal === 1 && (
           <React.Fragment>
-            <Radio.Group defaultValue="a" buttonStyle="solid">
-              <Radio.Button value="a">Student qo'shish</Radio.Button>
-              <Radio.Button value="b">Davomat</Radio.Button>
+            <Radio.Group
+              onChange={handleChange}
+              defaultValue={0}
+              buttonStyle="solid"
+            >
+              <Radio.Button value={0}>Student qo'shish</Radio.Button>
+              <Radio.Button value={1}>Davomat</Radio.Button>
             </Radio.Group>
             <br />
             <br />
-            <AddStudent />
-            <Button
-              loading={addStudentLoading}
-              block
-              type="primary"
-              onClick={handleAddStudent}
-              size="large"
-            >
-              ADD
-            </Button>
+            {tabValue === 0 ? <AddStudent /> : <TakeAttendance />}
           </React.Fragment>
         )}
       </GModal>
@@ -289,6 +283,7 @@ const Sample = ({ searchInput }) => {
           Add
         </Button>
       </Space>
+      {console.log(group)}
 
       <Table columns={columns} dataSource={orders} />
     </div>
