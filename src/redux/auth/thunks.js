@@ -22,18 +22,19 @@ const signupAsync = async (data) => {
 export const signup = createAsyncThunk("auth/signup", signupAsync);
 
 // LOGIN
-const loginAsync = async (data) => {
+const loginAsync = async (data, { rejectWithValue }) => {
   try {
     const res = await axios({
       url: `${base_url}/api/token/`,
       method: "POST",
-      data,
+      data: data.data,
     });
+    data.onSuccess();
     setSession(res.data.access, res.data.refresh);
     return res;
   } catch (err) {
-    // Handle Error Here
-    console.error(err);
+    data.onError(err.response.data.detail);
+    return rejectWithValue([], err);
   }
 };
 

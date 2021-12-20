@@ -1,8 +1,7 @@
 import React from "react";
 import { Modal } from "antd";
 
-const GModal = ({ children, visible, setvisible }) => {
-
+const GModal = ({ children, visible, setvisible, title = "Modal" }) => {
   const handleOk = () => {
     setvisible(false);
   };
@@ -13,7 +12,7 @@ const GModal = ({ children, visible, setvisible }) => {
 
   return (
     <Modal
-      title='Basic Modal'
+      title={title}
       visible={visible}
       onOk={handleOk}
       onCancel={handleCancel}

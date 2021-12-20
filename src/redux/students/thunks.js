@@ -20,43 +20,25 @@ const createAsync = async (data, { rejectWithValue }) => {
 
 export const create = createAsyncThunk("category/create", createAsync);
 
-// ADD STUDENT TO GROUP
-const addStudentAsync = async (data, { rejectWithValue }) => {
+// GET
+const getAsync = async (setloading, { rejectWithValue }) => {
   try {
     const res = await axios({
-      url: `${baseurl}/control_system/addUserFromGroup/`,
+      url: `${baseurl}/control_system/getUserByRole/`,
       method: "POST",
-      data: data.data,
+      data: {
+        role_user: 1,
+      },
     });
-    data.setLoading(false);
+    setloading(false);
     return { res };
   } catch (err) {
-    data.setLoading(false);
     // Handle Error Here
     return rejectWithValue([], err);
   }
 };
 
-export const addStudent = createAsyncThunk(
-  "category/add-student",
-  addStudentAsync
-);
-
-// GET
-const getGroupAsync = async (type, { rejectWithValue }) => {
-  try {
-    const res = await axios({
-      url: `${baseurl}/control_system/group/3/`,
-      method: "GET",
-    });
-    return { res, type };
-  } catch (err) {
-    // Handle Error Here
-    return rejectWithValue([], err);
-  }
-};
-
-export const getGroup = createAsyncThunk("category/get-group", getGroupAsync);
+export const getStudents = createAsyncThunk("category/get-students", getAsync);
 
 // DELETE
 const deleteAsync = async (data, { rejectWithValue }) => {

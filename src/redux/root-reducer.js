@@ -1,8 +1,12 @@
-import { combineReducers } from '@reduxjs/toolkit'
-import authReducer from "./auth/authSlice"
-import categoryReducer from "./category/categorySlice"
+import { combineReducers } from "@reduxjs/toolkit";
+import authReducer from "./auth/authSlice";
+import categoryReducer from "./category/categorySlice";
+import studentReducer from "./students/studentSlice";
 
+const rootReducer = combineReducers({
+  authReducer,
+  categoryReducer,
+  studentReducer,
+});
 
-const rootReducer = combineReducers({authReducer, categoryReducer})
-
-export default rootReducer
+export default rootReducer;

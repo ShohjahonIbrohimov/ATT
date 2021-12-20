@@ -1,17 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { create, deleteCat, update } from "./thunks";
+import { create, deleteCat, update, getStudents } from "./thunks";
 
 // Define the initial state using that type
 const initialState = {
   category: [],
-  subcategory: [],
-  product: [],
+  all: [],
+  selected: [],
 };
 
-export const categorySlice = createSlice({
+export const studentSlice = createSlice({
   name: "category",
   initialState,
+  reducers: {
+    setSelected: (state, action) => {
+      state.selected = action.payload;
+    },
+  },
   extraReducers: {
+    [getStudents.fulfilled.toString()]: (state, action) => {
+      state.all = action.payload.res.data;
+    },
     [create.fulfilled.toString()]: (state, action) => {
       // state[action.payload.type] = [
       //   ...state[action.payload.type],
@@ -23,4 +31,6 @@ export const categorySlice = createSlice({
   },
 });
 
-export default categorySlice.reducer;
+export const { setSelected } = studentSlice.actions;
+
+export default studentSlice.reducer;

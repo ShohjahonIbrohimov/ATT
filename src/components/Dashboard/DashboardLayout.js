@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { Layout, Menu } from "antd";
-import { HomeOutlined, UserOutlined, LogoutOutlined } from "@ant-design/icons";
+import {
+  AppstoreOutlined,
+  UserOutlined,
+  LogoutOutlined,
+} from "@ant-design/icons";
 import styles from "../../styles/DashboardLayout.module.css";
 import { Avatar } from "antd";
 import { ADMIN_ROUTES } from "../../routes/routes";
@@ -12,15 +16,15 @@ import { useDispatch } from "react-redux";
 const { Content, Sider } = Layout;
 
 const adminMenuItems = [
-  // {
-  //   title: "Bosh sahifa",
-  //   icon: <HomeOutlined />,
-  //   link: "/dashboard",
-  // },
   {
     title: "Guruhlar",
-    icon: <HomeOutlined />,
+    icon: <AppstoreOutlined />,
     link: "/dashboard/orders",
+  },
+  {
+    title: "O'quvchilar",
+    icon: <UserOutlined />,
+    link: "/dashboard/students",
   },
 ];
 

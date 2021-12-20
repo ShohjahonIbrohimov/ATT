@@ -1,12 +1,25 @@
-import { Form, Input, Button, Checkbox } from "antd";
+import React, { useState } from "react";
+import { Form, Input, Button, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/auth/thunks";
 
 const Loginform = () => {
   const dispatch = useDispatch();
-  const onFinish = (values) => {
-    dispatch(login(values));
+  const [loading, setloading] = useState(false);
+
+  const onError = (text) => {
+    setloading(false);
+    message.error(text);
+  };
+
+  const onSuccess = () => {
+    setloading(false);
+  };
+
+  const onFinish = (data) => {
+    setloading(true);
+    dispatch(login({ data, onError, onSuccess }));
   };
 
   return (
@@ -51,6 +64,7 @@ const Loginform = () => {
 
       <Form.Item>
         <Button
+          loading={loading}
           block
           type="primary"
           htmlType="submit"

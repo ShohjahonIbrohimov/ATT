@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Table, Button, message, Input, Space } from "antd";
+import { Table, Button, message, Input, Space, Radio } from "antd";
 import Highlighter from "react-highlight-words";
 import { SearchOutlined } from "@ant-design/icons";
 import base_url from "../../../utils/baseurl";
-import { PlusOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import { PlusOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import GModal from "../../Reusable/GModal";
 import GForm from "../../Reusable/GForm";
 import fields from "./formFields.json";
-import { get, create, deleteCat, update } from "../../../redux/category/thunks";
+import {
+  get,
+  create,
+  deleteCat,
+  update,
+  addStudent,
+} from "../../../redux/category/thunks";
 import { useDispatch, useSelector } from "react-redux";
+import AddStudent from "./AddStudent";
 
 const success = () => {
   message.success("Success");
@@ -20,12 +27,17 @@ const error = () => {
 };
 
 const Sample = ({ searchInput }) => {
+  const [modal, setmodal] = useState(0);
   const [orders, setorders] = useState([]);
   const [visible, setvisible] = useState(false);
   const [defaults, setdefaults] = useState(null);
   const [searchText, setsearchText] = useState("");
   const [searchedColumn, setsearchedColumn] = useState("");
   const dispatch = useDispatch();
+  const selectedStudents = useSelector(
+    (state) => state.studentReducer.selected
+  );
+  const [addStudentLoading, setaddStudentLoading] = useState(false);
 
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -154,9 +166,31 @@ const Sample = ({ searchInput }) => {
       width: "10%",
       render: (data, row) => (
         <Space>
-          {" "}
-          <Button onClick={() => handleDeleteCategory(row)}>Delete</Button>
-          <Button onClick={() => handleOpenModal(row)}>Edit</Button>
+          <Button
+            type="primary"
+            ghost
+            icon={<PlusOutlined />}
+            onClick={() => {
+              setmodal(1);
+              handleOpenModal(row);
+            }}
+          />
+
+          <Button
+            type="primary"
+            ghost
+            icon={<EditOutlined />}
+            onClick={() => {
+              setmodal(0);
+              handleOpenModal(row);
+            }}
+          />
+          <Button
+            type="primary"
+            danger
+            onClick={() => handleDeleteCategory(row)}
+            icon={<DeleteOutlined />}
+          />
         </Space>
       ),
     },
@@ -201,15 +235,50 @@ const Sample = ({ searchInput }) => {
     dispatch(deleteCat({ data, getOrders }));
   };
 
+  const handleAddStudent = () => {
+    setaddStudentLoading(true);
+    dispatch(
+      addStudent({
+        data: {
+          user: selectedStudents[0],
+          group: defaults?.id,
+        },
+        setLoading: setaddStudentLoading,
+      })
+    );
+  };
+
   return (
     <div>
-      <GModal visible={visible} setvisible={setvisible}>
-        <GForm
-          defaults={defaults}
-          handleAddCategory={handleAddCategory}
-          handleUpdateCategory={handleUpdateCategory}
-          fields={fields}
-        />
+      <GModal visible={visible} setvisible={setvisible} title={defaults?.name}>
+        {modal === 0 && (
+          <GForm
+            defaults={defaults}
+            handleAddCategory={handleAddCategory}
+            handleUpdateCategory={handleUpdateCategory}
+            fields={fields}
+          />
+        )}
+        {modal === 1 && (
+          <React.Fragment>
+            <Radio.Group defaultValue="a" buttonStyle="solid">
+              <Radio.Button value="a">Student qo'shish</Radio.Button>
+              <Radio.Button value="b">Davomat</Radio.Button>
+            </Radio.Group>
+            <br />
+            <br />
+            <AddStudent />
+            <Button
+              loading={addStudentLoading}
+              block
+              type="primary"
+              onClick={handleAddStudent}
+              size="large"
+            >
+              ADD
+            </Button>
+          </React.Fragment>
+        )}
       </GModal>
       <Space style={{ marginBottom: "1rem" }}>
         <Button

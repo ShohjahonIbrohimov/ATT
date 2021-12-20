@@ -6,3 +6,7 @@
   font-family: "Nunito", sans-serif;
   box-sizing: border-box;
 }
+
+iframe {
+  display: none;
+}

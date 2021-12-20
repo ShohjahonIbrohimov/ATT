@@ -8,7 +8,7 @@ import fields from "./formFields.json";
 import { Button, Space, Radio } from "antd";
 import { PlusOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 
-import { get, create, deleteCat, update } from "../../../redux/category/thunks";
+import { create, deleteCat, update } from "../../../redux/category/thunks";
 import { useDispatch, useSelector } from "react-redux";
 
 const Table = () => {
@@ -90,11 +90,7 @@ const Table = () => {
     setdefaults(null);
   };
 
-  useEffect(() => {
-    dispatch(get("category"));
-    dispatch(get("subcategory"));
-    dispatch(get("product"));
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div>
