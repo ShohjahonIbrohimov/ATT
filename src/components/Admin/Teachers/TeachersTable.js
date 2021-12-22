@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getStudents } from "../../../redux/students/thunks";
 import { setSelected } from "../../../redux/students/studentSlice";
 import { getGroup } from "../../../redux/category/thunks";
+import { getTeachers } from "../../../redux/teachers/thunks";
 
 const columns = [
   {
@@ -17,17 +18,16 @@ const columns = [
   },
 ];
 
-const StudentsTable = () => {
+const TeachersTable = () => {
   const [loading, setloading] = useState(false);
   const dispatch = useDispatch();
-  const students = useSelector((state) => state.studentReducer.all);
+  const students = useSelector((state) => state.teacherReducer.teachers);
 
   useEffect(() => {
     if (!students.length) {
       setloading(true);
-      dispatch(getStudents(setloading));
+      dispatch(getTeachers(setloading));
     }
-    dispatch(getGroup());
   }, []);
 
   return (
@@ -48,4 +48,4 @@ const StudentsTable = () => {
   );
 };
 
-export default StudentsTable;
+export default TeachersTable;

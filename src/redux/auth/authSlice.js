@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { signup, login, refresh } from "./thunks";
+import { signup, login, refresh, getStatus } from "./thunks";
 
 // Define the initial state using that type
 const initialState = {
@@ -7,6 +7,7 @@ const initialState = {
   token: null,
   authenticated: false,
   refreshed: false,
+  status: null,
 };
 
 export const authSlice = createSlice({
@@ -18,6 +19,7 @@ export const authSlice = createSlice({
       state.token = null;
       state.authenticated = false;
       state.refreshed = false;
+      state.status = null;
     },
   },
   extraReducers: {
@@ -29,6 +31,10 @@ export const authSlice = createSlice({
       state.authenticated = true;
       state.user = data.user;
       state.token = data.token;
+    },
+    [getStatus.fulfilled.toString()]: (state, action) => {
+      console.log(action.payload, "#############");
+      state.status = action.payload.data;
     },
     [refresh.fulfilled.toString()]: (state, action) => {
       state.refreshed = true;

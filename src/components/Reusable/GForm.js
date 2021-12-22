@@ -9,6 +9,7 @@ const GForm = ({
   handleAddCategory,
   handleUpdateCategory,
   defaults,
+  loading = false,
 }) => {
   const [form] = Form.useForm();
   const [imageUrl, setimageUrl] = useState("");
@@ -79,6 +80,7 @@ const GForm = ({
 
       <Form.Item>
         <Button
+          loading={loading}
           block
           type="primary"
           htmlType="submit"

@@ -29,8 +29,8 @@ const loginAsync = async (data, { rejectWithValue }) => {
       method: "POST",
       data: data.data,
     });
-    data.onSuccess();
     setSession(res.data.access, res.data.refresh);
+    data.onSuccess();
     return res;
   } catch (err) {
     data.onError(err.response.data.detail);
@@ -42,7 +42,6 @@ export const login = createAsyncThunk("auth/login", loginAsync);
 
 // REFRESH
 const refreshAsync = async (data) => {
-  console.log(data);
   try {
     const res = await axios({
       url: `${base_url}/api/token/refresh/`,
@@ -52,12 +51,31 @@ const refreshAsync = async (data) => {
       },
     });
     await setSession(res.data.access, null);
-    data.setloading(false);
+    data.onSuccess();
     return res;
   } catch (err) {
+    data.onError();
     // Handle Error Here
     console.error(err);
   }
 };
 
 export const refresh = createAsyncThunk("auth/refresh", refreshAsync);
+
+// REFRESH
+const getStatusAsync = async (data) => {
+  try {
+    const res = await axios({
+      url: `${base_url}/control_system/getUserStatus/`,
+      method: "GET",
+    });
+    // data.onSuccess();
+    return res;
+  } catch (err) {
+    data.onError();
+    // Handle Error Here
+    console.error(err);
+  }
+};
+
+export const getStatus = createAsyncThunk("auth/get-status", getStatusAsync);

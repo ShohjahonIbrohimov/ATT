@@ -3,16 +3,25 @@ import DashboardLayout from "../../components/Dashboard/DashboardLayout";
 import { refresh } from "../../redux/auth/thunks";
 import { useDispatch, useSelector } from "react-redux";
 import { LoadingOutlined } from "@ant-design/icons";
+import { logout } from "../../redux/auth/authSlice";
 
 const Dashboard = () => {
   const [loading, setloading] = useState(true);
   const dispatch = useDispatch();
-  const refreshed = useSelector((state) => state.authReducer.refreshed);
+
+  const onError = () => {
+    setloading(false);
+    dispatch(logout());
+  };
+
+  const onSuccess = () => {
+    setloading(false);
+  };
 
   useEffect(() => {
     setloading(true);
     const refreshToken = window.localStorage.getItem("refreshToken");
-    dispatch(refresh({ refreshToken, setloading }));
+    dispatch(refresh({ refreshToken, onSuccess, onError }));
   }, []);
 
   return loading ? (

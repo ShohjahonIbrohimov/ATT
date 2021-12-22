@@ -6,10 +6,11 @@ import { Redirect } from "react-router-dom";
 
 const AuthLayout = () => {
   const authenticated = useSelector((state) => state.authReducer.authenticated);
+  const status = useSelector((state) => state?.authReducer.status);
 
   return (
     <div className={styles.background}>
-      {authenticated && <Redirect to="/dashboard/orders" />}
+      {authenticated && status && <Redirect to={`/dashboard/${status}`} />}
       <Loginform />
     </div>
   );

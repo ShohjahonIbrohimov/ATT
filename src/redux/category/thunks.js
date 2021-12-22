@@ -42,6 +42,28 @@ export const addStudent = createAsyncThunk(
   addStudentAsync
 );
 
+// DELETE STUDENT FROM GROUP
+const deleteStudentAsync = async (data, { rejectWithValue }) => {
+  try {
+    const res = await axios({
+      url: `${baseurl}/control_system/deleteUserFromGroup/`,
+      method: "POST",
+      data: data.data,
+    });
+    data.onSuccess();
+    return { res };
+  } catch (err) {
+    data.onSuccess();
+    // Handle Error Here
+    return rejectWithValue([], err);
+  }
+};
+
+export const deleteStudent = createAsyncThunk(
+  "category/delete-student",
+  deleteStudentAsync
+);
+
 // GET
 const getGroupAsync = async (data, { rejectWithValue }) => {
   try {
@@ -59,6 +81,27 @@ const getGroupAsync = async (data, { rejectWithValue }) => {
 };
 
 export const getGroup = createAsyncThunk("category/get-group", getGroupAsync);
+
+// GET
+const getGroupsAsync = async (data, { rejectWithValue }) => {
+  try {
+    const res = await axios({
+      url: `${baseurl}/control_system/group/`,
+      method: "GET",
+    });
+    data.onSuccess();
+    return { res };
+  } catch (err) {
+    data.onSuccess();
+    // Handle Error Here
+    return rejectWithValue([], err);
+  }
+};
+
+export const getGroups = createAsyncThunk(
+  "category/get-groups",
+  getGroupsAsync
+);
 
 // DELETE
 const deleteAsync = async (data, { rejectWithValue }) => {
@@ -95,3 +138,46 @@ const updateAsync = async (data, { rejectWithValue }) => {
 };
 
 export const update = createAsyncThunk("category/update", updateAsync);
+
+// ADD TEACHER TO GROUP
+const addTeacherAsync = async (data, { rejectWithValue }) => {
+  try {
+    const res = await axios({
+      url: `${baseurl}/control_system/addUserFromGroup/`,
+      method: "POST",
+      data: data.data,
+    });
+    data.setLoading(false);
+    return { res };
+  } catch (err) {
+    data.setLoading(false);
+    // Handle Error Here
+    return rejectWithValue([], err);
+  }
+};
+
+export const addTeacher = createAsyncThunk(
+  "category/add-teacher",
+  addTeacherAsync
+);
+
+const takeAttentanceAsync = async (data, { rejectWithValue }) => {
+  try {
+    const res = await axios({
+      url: `${baseurl}/control_system/addUserFromGroup/`,
+      method: "POST",
+      data: data.data,
+    });
+    data.setLoading(false);
+    return { res };
+  } catch (err) {
+    data.setLoading(false);
+    // Handle Error Here
+    return rejectWithValue([], err);
+  }
+};
+
+export const takeAttendance = createAsyncThunk(
+  "category/take-att",
+  takeAttentanceAsync
+);

@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { create, deleteCat, update, getGroup } from "./thunks";
+import { getGroups, deleteCat, update, getGroup } from "./thunks";
 
 // Define the initial state using that type
 const initialState = {
   category: [],
   subcategory: [],
-  product: [],
+  groups: [],
   group: null,
   currentGroup: null,
 };
@@ -22,6 +22,9 @@ export const categorySlice = createSlice({
     [getGroup.fulfilled.toString()]: (state, action) => {
       console.log(action.payload);
       state.group = action.payload.res.data;
+    },
+    [getGroups.fulfilled.toString()]: (state, action) => {
+      state.groups = action.payload.res.data;
     },
     [deleteCat.fulfilled.toString()]: (state, action) => {},
     [update.fulfilled.toString()]: (state, action) => {},

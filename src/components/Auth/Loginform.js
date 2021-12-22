@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Input, Button, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
-import { login } from "../../redux/auth/thunks";
+import { getStatus, login } from "../../redux/auth/thunks";
 
 const Loginform = () => {
   const dispatch = useDispatch();
@@ -15,6 +15,7 @@ const Loginform = () => {
 
   const onSuccess = () => {
     setloading(false);
+    dispatch(getStatus());
   };
 
   const onFinish = (data) => {

@@ -21,11 +21,6 @@ const adminMenuItems = [
     icon: <AppstoreOutlined />,
     link: "/dashboard/orders",
   },
-  {
-    title: "O'quvchilar",
-    icon: <UserOutlined />,
-    link: "/dashboard/students",
-  },
 ];
 
 const DashboardLayout = () => {
@@ -38,7 +33,7 @@ const DashboardLayout = () => {
 
   return (
     <Layout className={styles.layout}>
-      <Sider
+      {/* <Sider
         theme="dark"
         collapsible
         collapsed={collapsed}
@@ -67,7 +62,7 @@ const DashboardLayout = () => {
             Chiqish
           </Menu.Item>
         </Menu>
-      </Sider>
+      </Sider> */}
       <Layout className="site-layout">
         <Content className={styles.content}>
           <Switch>

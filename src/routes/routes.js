@@ -3,6 +3,7 @@ import { Login, Dashboard } from "../pages";
 import Home from "../components/Admin/Home/Main";
 import Sample from "../components/Admin/Orders/Sample";
 import Main from "../components/Admin/Students/Main";
+import TeacherGroups from "../components/Teacher/Groups/TeacherGroups";
 
 export const ROUTES = [
   {
@@ -21,15 +22,15 @@ export const ROUTES = [
 
 export const ADMIN_ROUTES = [
   {
-    path: "/dashboard/students",
-    key: "APP_DASHBOARD",
-    exact: true,
-    component: () => <Main />,
-  },
-  {
-    path: "/dashboard/orders",
+    path: "/dashboard/3",
     key: "APP_ORDERS",
     exact: true,
     component: () => <Sample />,
+  },
+  {
+    path: "/dashboard/2",
+    key: "APP_ORDERS",
+    exact: true,
+    component: () => <TeacherGroups />,
   },
 ];

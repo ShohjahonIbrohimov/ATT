@@ -1,16 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {
-  Table,
-  Button,
-  message,
-  Input,
-  Space,
-  Radio,
-  Avatar,
-  Col,
-  Row,
-} from "antd";
+import { Table, Button, message, Input, Space, Radio, Col, Row } from "antd";
 import Highlighter from "react-highlight-words";
 import { SearchOutlined } from "@ant-design/icons";
 import base_url from "../../../utils/baseurl";
@@ -20,7 +10,6 @@ import {
   EditOutlined,
   RedoOutlined,
   LogoutOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
 import GModal from "../../Reusable/GModal";
 import GForm from "../../Reusable/GForm";
@@ -36,8 +25,8 @@ import { useDispatch, useSelector } from "react-redux";
 import AddStudent from "./AddStudent";
 import { setCurrentGroup } from "../../../redux/category/categorySlice";
 import TakeAttendance from "./TakeAttendance";
-import Main from "../Teachers/Main";
-import Grid from "antd/lib/card/Grid";
+// import Main from "../Teachers/Main";
+import { getTeacher } from "../../../redux/teachers/thunks";
 import { logout } from "../../../redux/auth/authSlice";
 
 const success = () => {
@@ -48,7 +37,7 @@ const error = () => {
   message.error("Error");
 };
 
-const Sample = ({ searchInput }) => {
+const TeacherGroups = ({ searchInput }) => {
   const [tabValue, settabValue] = useState(0);
   const [modal, setmodal] = useState(0);
   const [orders, setorders] = useState([]);
@@ -61,7 +50,7 @@ const Sample = ({ searchInput }) => {
   const dispatch = useDispatch();
 
   const group = useSelector((state) => state.categoryReducer.group);
-  const groups = useSelector((state) => state.categoryReducer.groups);
+  const groups = useSelector((state) => state.teacherReducer.groups);
 
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -229,7 +218,7 @@ const Sample = ({ searchInput }) => {
   useEffect(() => {
     if (!groups.length) {
       setloading(true);
-      dispatch(getGroups({ onSuccess }));
+      dispatch(getTeacher(setloading));
     }
   }, []);
 
@@ -272,6 +261,9 @@ const Sample = ({ searchInput }) => {
   const handleChange = (e) => {
     let value = e.target.value;
     settabValue(value);
+    if (value === 1) {
+      dispatch(getGroup(defaults.id));
+    }
   };
 
   return (
@@ -288,33 +280,7 @@ const Sample = ({ searchInput }) => {
         )}
         {modal === 1 && (
           <React.Fragment>
-            <Space>
-              <Radio.Group
-                onChange={handleChange}
-                defaultValue={0}
-                buttonStyle="solid"
-              >
-                <Radio.Button value={2}>O'qituvchi qo'shish</Radio.Button>
-                <Radio.Button value={0}>Student qo'shish</Radio.Button>
-                <Radio.Button value={1}>Davomat</Radio.Button>
-              </Radio.Group>
-              <Button
-                type="primary"
-                icon={<RedoOutlined />}
-                onClick={() => {
-                  // getOrders();
-                }}
-              />
-            </Space>
-            <br />
-            <br />
-            {tabValue === 0 ? (
-              <AddStudent />
-            ) : tabValue === 1 ? (
-              <TakeAttendance />
-            ) : (
-              <Main />
-            )}
+            <TakeAttendance />
           </React.Fragment>
         )}
       </GModal>
@@ -323,26 +289,12 @@ const Sample = ({ searchInput }) => {
           <Space style={{ marginBottom: "1rem" }}>
             <Button
               type="primary"
-              icon={<PlusOutlined />}
-              onClick={() => handleOpenModal(null)}
-            >
-              Add
-            </Button>
-            <Button
-              type="primary"
               icon={<RedoOutlined />}
               onClick={() => {
-                getOrders();
+                setloading(true);
+                dispatch(getTeacher(setloading));
               }}
             />
-          </Space>
-        </Col>
-        <Col>
-          <Space>
-            {/* <Space align="baseline">
-              <Avatar size="medium" icon={<UserOutlined />} />
-              <h4>John Doe</h4>
-            </Space> */}
             <Button
               danger
               type="primary"
@@ -353,6 +305,7 @@ const Sample = ({ searchInput }) => {
             />
           </Space>
         </Col>
+        <Col></Col>
       </Row>
 
       <Table columns={columns} dataSource={groups} loading={loading} />
@@ -360,4 +313,4 @@ const Sample = ({ searchInput }) => {
   );
 };
 
-export default Sample;
+export default TeacherGroups;
