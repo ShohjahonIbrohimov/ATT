@@ -12,6 +12,7 @@ import { Route, Switch, Link } from "react-router-dom";
 // REDUX
 import { logout } from "../../redux/auth/authSlice";
 import { useDispatch } from "react-redux";
+import Navbar from "../Admin/Orders/Navbar";
 
 const { Content, Sider } = Layout;
 
@@ -64,6 +65,8 @@ const DashboardLayout = () => {
         </Menu>
       </Sider> */}
       <Layout className="site-layout">
+        <Navbar />
+        <br />
         <Content className={styles.content}>
           <Switch>
             {ADMIN_ROUTES.map((route) => (

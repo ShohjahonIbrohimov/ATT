@@ -28,6 +28,18 @@ export const ADMIN_ROUTES = [
     component: () => <Sample />,
   },
   {
+    path: "/dashboard/3/groups",
+    key: "APP_ORDERS",
+    exact: true,
+    component: () => <Sample />,
+  },
+  {
+    path: "/dashboard/3/att",
+    key: "APP_ORDERS",
+    exact: true,
+    component: () => <Main />,
+  },
+  {
     path: "/dashboard/2",
     key: "APP_ORDERS",
     exact: true,

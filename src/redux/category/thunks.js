@@ -161,23 +161,22 @@ export const addTeacher = createAsyncThunk(
   addTeacherAsync
 );
 
-const takeAttentanceAsync = async (data, { rejectWithValue }) => {
+const getAttListAsync = async (setLoading, { rejectWithValue }) => {
   try {
     const res = await axios({
-      url: `${baseurl}/control_system/addUserFromGroup/`,
-      method: "POST",
-      data: data.data,
+      url: `${baseurl}/attendance/getAll/`,
+      method: "GET",
     });
-    data.setLoading(false);
+    setLoading(false);
     return { res };
   } catch (err) {
-    data.setLoading(false);
+    setLoading(false);
     // Handle Error Here
     return rejectWithValue([], err);
   }
 };
 
-export const takeAttendance = createAsyncThunk(
-  "category/take-att",
-  takeAttentanceAsync
+export const getAttendanceList = createAsyncThunk(
+  "category/get-att-list",
+  getAttListAsync
 );

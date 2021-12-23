@@ -3,14 +3,21 @@ import { Table, Button, Input, Tag, Space } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import Highlighter from "react-highlight-words";
 import { getAttendanceList } from "../../../redux/category/thunks";
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, RedoOutlined } from "@ant-design/icons";
+import { getStudents } from "../../../redux/students/thunks";
+import { setSelected } from "../../../redux/students/studentSlice";
 
 const StudentsTable = ({ searchInput }) => {
   const [loading, setloading] = useState(false);
   const dispatch = useDispatch();
-  const students = useSelector((state) => state.categoryReducer.att_list);
+  const students = useSelector((state) => state.studentReducer.all);
   const [searchText, setsearchText] = useState("");
   const [searchedColumn, setsearchedColumn] = useState("");
+
+  const handleFetch = () => {
+    setloading(true);
+    dispatch(getStudents(setloading));
+  };
 
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -115,31 +122,23 @@ const StudentsTable = ({ searchInput }) => {
       key: "username",
       ...getColumnSearchProps("username"),
     },
-    {
-      title: "Guruh turi",
-      dataIndex: "nationality",
-      ...getColumnSearchProps("nationality"),
-    },
-    {
-      title: "Holati",
-      dataIndex: "name",
-      render: (data, row) => (
-        <Tag
-          color={row?.user?.use_device ? "green" : "red"}
-          key={row?.user?.use_device ? "Ichkarida" : "Tashqarida"}
-        >
-          {row?.user?.use_device ? "Ichkarida" : "Tashqarida"}
-        </Tag>
-      ),
-    },
   ];
 
   useEffect(() => {
-    dispatch(getAttendanceList(setloading));
+    if (!students.length) {
+      handleFetch();
+    }
   }, []);
 
   return (
     <div>
+      <Button
+        type="primary"
+        icon={<RedoOutlined />}
+        onClick={() => {
+          handleFetch();
+        }}
+      />
       <Table
         size="small"
         rowKey="id"
@@ -148,10 +147,15 @@ const StudentsTable = ({ searchInput }) => {
         dataSource={students.map((st) => {
           return {
             ...st,
-            fullname: `${st.user.first_name} ${st.user.last_name}`,
-            nationality: `${st?.user.nationality === 1 ? "UZ" : "RU"}`,
+            fullname: `${st.first_name} ${st.last_name}`,
+            nationality: `${st?.nationality === 1 ? "UZ" : "RU"}`,
           };
         })}
+        rowSelection={{
+          onChange: (selectedRowKeys, selectedRows) => {
+            dispatch(setSelected(selectedRowKeys));
+          },
+        }}
       />
     </div>
   );

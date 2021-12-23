@@ -39,6 +39,7 @@ import TakeAttendance from "./TakeAttendance";
 import Main from "../Teachers/Main";
 import Grid from "antd/lib/card/Grid";
 import { logout } from "../../../redux/auth/authSlice";
+import Navbar from "./Navbar";
 
 const success = () => {
   message.success("Success");
@@ -165,6 +166,9 @@ const Sample = ({ searchInput }) => {
       dataIndex: "nationality",
       key: "nationality",
       ...getColumnSearchProps("nationality"),
+      render: (data, row) => (
+        <span>{row?.nationality === 1 ? "UZ" : "RU"}</span>
+      ),
     },
     {
       title: "Actions",
@@ -296,15 +300,8 @@ const Sample = ({ searchInput }) => {
               >
                 <Radio.Button value={2}>O'qituvchi qo'shish</Radio.Button>
                 <Radio.Button value={0}>Student qo'shish</Radio.Button>
-                <Radio.Button value={1}>Davomat</Radio.Button>
+                <Radio.Button value={1}>Studentlar</Radio.Button>
               </Radio.Group>
-              <Button
-                type="primary"
-                icon={<RedoOutlined />}
-                onClick={() => {
-                  // getOrders();
-                }}
-              />
             </Space>
             <br />
             <br />
@@ -318,42 +315,23 @@ const Sample = ({ searchInput }) => {
           </React.Fragment>
         )}
       </GModal>
-      <Row justify="space-between">
-        <Col>
-          <Space style={{ marginBottom: "1rem" }}>
-            <Button
-              type="primary"
-              icon={<PlusOutlined />}
-              onClick={() => handleOpenModal(null)}
-            >
-              Add
-            </Button>
-            <Button
-              type="primary"
-              icon={<RedoOutlined />}
-              onClick={() => {
-                getOrders();
-              }}
-            />
-          </Space>
-        </Col>
-        <Col>
-          <Space>
-            {/* <Space align="baseline">
-              <Avatar size="medium" icon={<UserOutlined />} />
-              <h4>John Doe</h4>
-            </Space> */}
-            <Button
-              danger
-              type="primary"
-              icon={<LogoutOutlined />}
-              onClick={() => {
-                dispatch(logout());
-              }}
-            />
-          </Space>
-        </Col>
-      </Row>
+
+      <Space style={{ marginBottom: "1rem" }}>
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={() => handleOpenModal(null)}
+        >
+          Add
+        </Button>
+        <Button
+          type="primary"
+          icon={<RedoOutlined />}
+          onClick={() => {
+            getOrders();
+          }}
+        />
+      </Space>
 
       <Table columns={columns} dataSource={groups} loading={loading} />
     </div>

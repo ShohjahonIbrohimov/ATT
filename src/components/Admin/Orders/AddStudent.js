@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import StudentsTable from "../Students/StudentsTable";
+import StudentsTable from "./allStudents";
 import { Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { addStudent } from "../../../redux/category/thunks";

@@ -8,6 +8,7 @@ const initialState = {
   authenticated: false,
   refreshed: false,
   status: null,
+  username: "",
 };
 
 export const authSlice = createSlice({
@@ -33,8 +34,8 @@ export const authSlice = createSlice({
       state.token = data.token;
     },
     [getStatus.fulfilled.toString()]: (state, action) => {
-      console.log(action.payload, "#############");
-      state.status = action.payload.data;
+      state.status = action.payload.data.role;
+      state.username = action.payload.data.username;
     },
     [refresh.fulfilled.toString()]: (state, action) => {
       state.refreshed = true;

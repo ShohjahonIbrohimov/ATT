@@ -65,9 +65,6 @@ const TakeAttendance = () => {
         >
           Delete
         </Button>
-        <Button block type="primary" onClick={() => {}} size="large">
-          Send
-        </Button>
       </Space>
     </div>
   );

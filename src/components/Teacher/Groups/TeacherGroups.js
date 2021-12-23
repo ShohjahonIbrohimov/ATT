@@ -7,7 +7,7 @@ import base_url from "../../../utils/baseurl";
 import {
   PlusOutlined,
   DeleteOutlined,
-  EditOutlined,
+  EyeOutlined,
   RedoOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
@@ -165,27 +165,11 @@ const TeacherGroups = ({ searchInput }) => {
           <Button
             type="primary"
             ghost
-            icon={<PlusOutlined />}
+            icon={<EyeOutlined />}
             onClick={() => {
               setmodal(1);
               handleOpenModal(row);
             }}
-          />
-
-          <Button
-            type="primary"
-            ghost
-            icon={<EditOutlined />}
-            onClick={() => {
-              setmodal(0);
-              handleOpenModal(row);
-            }}
-          />
-          <Button
-            type="primary"
-            danger
-            onClick={() => handleDeleteCategory(row)}
-            icon={<DeleteOutlined />}
           />
         </Space>
       ),
@@ -293,14 +277,6 @@ const TeacherGroups = ({ searchInput }) => {
               onClick={() => {
                 setloading(true);
                 dispatch(getTeacher(setloading));
-              }}
-            />
-            <Button
-              danger
-              type="primary"
-              icon={<LogoutOutlined />}
-              onClick={() => {
-                dispatch(logout());
               }}
             />
           </Space>

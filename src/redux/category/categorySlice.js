@@ -1,5 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getGroups, deleteCat, update, getGroup } from "./thunks";
+import {
+  getGroups,
+  deleteCat,
+  update,
+  getGroup,
+  getAttendanceList,
+} from "./thunks";
 
 // Define the initial state using that type
 const initialState = {
@@ -8,6 +14,7 @@ const initialState = {
   groups: [],
   group: null,
   currentGroup: null,
+  att_list: [],
 };
 
 export const categorySlice = createSlice({
@@ -28,6 +35,9 @@ export const categorySlice = createSlice({
     },
     [deleteCat.fulfilled.toString()]: (state, action) => {},
     [update.fulfilled.toString()]: (state, action) => {},
+    [getAttendanceList.fulfilled.toString()]: (state, action) => {
+      state.att_list = action.payload.res.data;
+    },
   },
 });
 
