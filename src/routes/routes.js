@@ -45,4 +45,10 @@ export const ADMIN_ROUTES = [
     exact: true,
     component: () => <TeacherGroups />,
   },
+  {
+    path: "/dashboard/2/groups",
+    key: "APP_ORDERS",
+    exact: true,
+    component: () => <TeacherGroups />,
+  },
 ];

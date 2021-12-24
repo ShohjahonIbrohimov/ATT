@@ -19,7 +19,7 @@ const Navbar = () => {
   const status = useSelector((state) => state.authReducer.status);
 
   const handleClick = (e) => {
-    history.push(`/dashboard/3/${e.key}`);
+    history.push(`/dashboard/${status}/${e.key}`);
     setcurrent(e.key);
   };
 

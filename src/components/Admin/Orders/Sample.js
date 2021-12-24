@@ -320,7 +320,10 @@ const Sample = ({ searchInput }) => {
         <Button
           type="primary"
           icon={<PlusOutlined />}
-          onClick={() => handleOpenModal(null)}
+          onClick={() => {
+            handleOpenModal(null);
+            setmodal(0);
+          }}
         >
           Add
         </Button>
