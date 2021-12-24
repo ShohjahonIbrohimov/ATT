@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Table, Button, message, Input, Space, Radio, Col, Row } from "antd";
+import { Table, Button, message, Input, Space, Modal, Col, Row } from "antd";
 import Highlighter from "react-highlight-words";
 import { SearchOutlined } from "@ant-design/icons";
 import base_url from "../../../utils/baseurl";
@@ -242,17 +242,24 @@ const TeacherGroups = ({ searchInput }) => {
     );
   };
 
-  const handleChange = (e) => {
-    let value = e.target.value;
-    settabValue(value);
-    if (value === 1) {
-      dispatch(getGroup(defaults.id));
-    }
+  const handleOk = () => {
+    setvisible(false);
+  };
+
+  const handleCancel = () => {
+    setvisible(false);
   };
 
   return (
     <div>
-      <GModal visible={visible} setvisible={setvisible} title={defaults?.name}>
+      <Modal
+        className="teacher-cabinet"
+        visible={visible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+        title={defaults?.name}
+      >
         {modal === 0 && (
           <GForm
             loading={addGrouploading}
@@ -262,12 +269,8 @@ const TeacherGroups = ({ searchInput }) => {
             fields={fields}
           />
         )}
-        {modal === 1 && (
-          <React.Fragment>
-            <TakeAttendance />
-          </React.Fragment>
-        )}
-      </GModal>
+        {modal === 1 && <TakeAttendance />}
+      </Modal>
       <Row justify="space-between">
         <Col>
           <Space style={{ marginBottom: "1rem" }}>

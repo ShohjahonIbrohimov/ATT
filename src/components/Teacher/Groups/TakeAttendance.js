@@ -76,7 +76,6 @@ const TakeAttendance = () => {
       <GroupStudents loading={loading} handleFetchGroup={handleFetchGroup} />
       <Button
         loading={takeAttendanceLoading}
-        block
         type="primary"
         onClick={handleTakeAttendance}
         size="large"

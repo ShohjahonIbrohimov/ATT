@@ -10,3 +10,16 @@
 iframe {
   display: none;
 }
+
+.teacher-cabinet {
+  width: 100% !important;
+  height: 100vh;
+  top: 0 !important;
+  bottom: 0 !important;
+  padding: 0;
+  max-width: unset;
+}
+
+.teacher-cabinet .ant-modal-content {
+  height: 100%;
+}
