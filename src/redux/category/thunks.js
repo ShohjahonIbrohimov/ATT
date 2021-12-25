@@ -13,6 +13,7 @@ const createAsync = async (data, { rejectWithValue }) => {
     data.getOrders();
     return { res };
   } catch (err) {
+    data.onError(err.response.data.name[0]);
     // Handle Error Here
     return rejectWithValue([], err);
   }

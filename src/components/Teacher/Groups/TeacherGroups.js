@@ -260,16 +260,7 @@ const TeacherGroups = ({ searchInput }) => {
         footer={null}
         title={defaults?.name}
       >
-        {modal === 0 && (
-          <GForm
-            loading={addGrouploading}
-            defaults={defaults}
-            handleAddCategory={handleAddCategory}
-            handleUpdateCategory={handleUpdateCategory}
-            fields={fields}
-          />
-        )}
-        {modal === 1 && <TakeAttendance />}
+        <TakeAttendance defaults={defaults} />
       </Modal>
       <Row justify="space-between">
         <Col>

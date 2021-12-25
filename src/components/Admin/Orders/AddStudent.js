@@ -3,6 +3,7 @@ import StudentsTable from "./allStudents";
 import { Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { addStudent } from "../../../redux/category/thunks";
+import { setSelected } from "../../../redux/students/studentSlice";
 
 const AddStudent = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,11 @@ const AddStudent = () => {
     (state) => state?.categoryReducer?.currentGroup
   );
 
+  const onSuccess = (params) => {
+    setaddStudentLoading(false);
+    dispatch(setSelected([]));
+  };
+
   const handleAddStudent = () => {
     setaddStudentLoading(true);
     dispatch(
@@ -22,7 +28,7 @@ const AddStudent = () => {
           user: selectedStudents[0],
           group: currentGroup?.id,
         },
-        setLoading: setaddStudentLoading,
+        setLoading: onSuccess,
       })
     );
   };

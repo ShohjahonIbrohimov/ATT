@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Layout, Menu } from "antd";
 import {
   AppstoreOutlined,
@@ -7,11 +7,11 @@ import {
 } from "@ant-design/icons";
 import styles from "../../styles/DashboardLayout.module.css";
 import { Avatar } from "antd";
-import { ADMIN_ROUTES } from "../../routes/routes";
+import { ADMIN_ROUTES, TEACHER_ROUTES } from "../../routes/routes";
 import { Route, Switch, Link } from "react-router-dom";
 // REDUX
 import { logout } from "../../redux/auth/authSlice";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Navbar from "../Admin/Orders/Navbar";
 
 const { Content, Sider } = Layout;
@@ -25,13 +25,16 @@ const adminMenuItems = [
 ];
 
 const DashboardLayout = () => {
-  const [collapsed, setcollapsed] = useState(false);
-  const dispatch = useDispatch();
+  const [routes, setroutes] = useState([]);
+  const status = useSelector((state) => state.authReducer.status);
 
-  const onCollapse = (collapsed) => {
-    setcollapsed(collapsed);
-  };
-
+  useEffect(() => {
+    if (status === 2) {
+      setroutes(TEACHER_ROUTES);
+    } else {
+      setroutes(ADMIN_ROUTES);
+    }
+  }, []);
   return (
     <Layout className={styles.layout}>
       {/* <Sider
@@ -69,9 +72,21 @@ const DashboardLayout = () => {
         <br />
         <Content className={styles.content}>
           <Switch>
-            {ADMIN_ROUTES.map((route) => (
+            {routes.map((route) => (
               <Route {...route} />
             ))}
+            <Route>
+              <div
+                style={{
+                  height: "85vh",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <h1 style={{ fontSize: "3rem" }}>404 Not found</h1>
+              </div>
+            </Route>
           </Switch>
         </Content>
       </Layout>

@@ -22,6 +22,9 @@ const TeachersTable = () => {
   const [loading, setloading] = useState(false);
   const dispatch = useDispatch();
   const students = useSelector((state) => state.teacherReducer.teachers);
+  const selectedStudents = useSelector(
+    (state) => state.studentReducer.selected
+  );
 
   useEffect(() => {
     if (!students.length) {
@@ -40,6 +43,7 @@ const TeachersTable = () => {
           onChange: (selectedRowKeys) => {
             dispatch(setSelected(selectedRowKeys));
           },
+          selectedRowKeys: selectedStudents,
         }}
         columns={columns}
         dataSource={students}

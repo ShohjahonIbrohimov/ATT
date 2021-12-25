@@ -39,6 +39,9 @@ export const ADMIN_ROUTES = [
     exact: true,
     component: () => <Main />,
   },
+];
+
+export const TEACHER_ROUTES = [
   {
     path: "/dashboard/2",
     key: "APP_ORDERS",

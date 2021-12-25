@@ -41,12 +41,12 @@ import Grid from "antd/lib/card/Grid";
 import { logout } from "../../../redux/auth/authSlice";
 import Navbar from "./Navbar";
 
-const success = () => {
-  message.success("Success");
+const success = (msg) => {
+  message.success(msg);
 };
 
-const error = () => {
-  message.error("Error");
+const error = (msg) => {
+  message.error(msg);
 };
 
 const Sample = ({ searchInput }) => {
@@ -213,20 +213,13 @@ const Sample = ({ searchInput }) => {
     setvisible(true);
   };
 
-  const getOrders = () => {
-    setloading(true);
-    axios({
-      url: `${base_url}/control_system/group/`,
-      method: "GET",
-    }).then((res) => {
-      setloading(false);
-      setorders(res.data);
-      setaddGrouploading(false);
-    });
-  };
-
   const onSuccess = () => {
     setloading(false);
+    setaddGrouploading(false);
+  };
+
+  const onError = (msg) => {
+    error(msg);
     setaddGrouploading(false);
   };
 
@@ -245,6 +238,7 @@ const Sample = ({ searchInput }) => {
         getOrders: () => {
           dispatch(getGroups({ onSuccess }));
         },
+        onError,
       })
     );
   };
@@ -331,7 +325,8 @@ const Sample = ({ searchInput }) => {
           type="primary"
           icon={<RedoOutlined />}
           onClick={() => {
-            getOrders();
+            setloading(true);
+            dispatch(getGroups({ onSuccess }));
           }}
         />
       </Space>

@@ -13,6 +13,9 @@ const StudentsTable = ({ searchInput }) => {
   const students = useSelector((state) => state.studentReducer.all);
   const [searchText, setsearchText] = useState("");
   const [searchedColumn, setsearchedColumn] = useState("");
+  const selectedStudents = useSelector(
+    (state) => state.studentReducer.selected
+  );
 
   const handleFetch = () => {
     setloading(true);
@@ -155,6 +158,7 @@ const StudentsTable = ({ searchInput }) => {
           onChange: (selectedRowKeys, selectedRows) => {
             dispatch(setSelected(selectedRowKeys));
           },
+          selectedRowKeys: selectedStudents,
         }}
       />
     </div>

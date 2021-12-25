@@ -9,7 +9,7 @@ import {
 } from "../../../redux/teachers/thunks";
 import { RedoOutlined } from "@ant-design/icons";
 
-const TakeAttendance = () => {
+const TakeAttendance = ({ defaults }) => {
   const [loading, setLoading] = useState(false);
   const [takeAttendanceLoading, settakeAttendanceLoading] = useState(false);
   const currentGroup = useSelector(
@@ -21,8 +21,11 @@ const TakeAttendance = () => {
   );
 
   useEffect(() => {
+    console.log("object");
+    // if (visible) {
     handleFetchGroup();
-  }, []);
+    // }
+  }, [defaults]);
 
   const onSuccess = () => {
     settakeAttendanceLoading(false);
@@ -44,19 +47,6 @@ const TakeAttendance = () => {
   const handleFetchGroup = (params) => {
     setLoading(true);
     dispatch(getTeacherStudents({ id: currentGroup.id, setLoading }));
-  };
-
-  const deleteStudentFromGroup = (params) => {
-    setLoading(true);
-    dispatch(
-      deleteStudent({
-        data: {
-          user: selectedStudents[0],
-          group: currentGroup?.id,
-        },
-        onSuccess: onSuccessDeleteStudent,
-      })
-    );
   };
 
   const handleTakeAttendance = () => {
