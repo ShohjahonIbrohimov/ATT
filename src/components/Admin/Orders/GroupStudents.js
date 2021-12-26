@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Badge, Button, Space, Table } from "antd";
+import { Badge, Button, Space, Table, Tag } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelected } from "../../../redux/students/studentSlice";
-import { deleteStudent, getGroup } from "../../../redux/category/thunks";
-import { DeleteOutlined } from "@ant-design/icons";
+import { deleteStudent } from "../../../redux/category/thunks";
+import {
+  DeleteOutlined,
+  CloseOutlined,
+  CheckOutlined,
+} from "@ant-design/icons";
 
 const columns = [
   {
@@ -14,6 +18,20 @@ const columns = [
         {row?.first_name} {row?.last_name}
       </a>
     ),
+  },
+  {
+    title: "Holati",
+    dataIndex: "name",
+    render: (data, row) =>
+      row.use_device ? (
+        <Tag color="#87d068">
+          <CheckOutlined />
+        </Tag>
+      ) : (
+        <Tag color="#f50">
+          <CloseOutlined />
+        </Tag>
+      ),
   },
 ];
 

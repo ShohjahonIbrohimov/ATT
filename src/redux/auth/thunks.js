@@ -33,7 +33,7 @@ const loginAsync = async (data, { rejectWithValue }) => {
     data.onSuccess();
     return res;
   } catch (err) {
-    data.onError(err.response.data.detail);
+    data.onError(err?.response?.data?.detail ?? "ERROR");
     return rejectWithValue([], err);
   }
 };
