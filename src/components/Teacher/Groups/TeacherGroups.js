@@ -11,12 +11,11 @@ import { getTeacher, getTeacherStudents } from "../../../redux/teachers/thunks";
 const tagstyle = {
   marginRight: "2.5px",
   height: "32px",
-  width: "32px",
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
   fontSize: "18px",
-  padding: "0px",
+  padding: "0px 5px 0px 5px",
 };
 
 const TeacherGroups = ({ searchInput }) => {
@@ -204,8 +203,9 @@ const TeacherGroups = ({ searchInput }) => {
           <Space>
             <span>{defaults?.name}</span>
             <div>
-              <Tag style={tagstyle} color="#f44336">
-                {selectedStudents.length}
+              <Tag style={tagstyle} color="#1890ff">
+                Umumiy: &nbsp;
+                {students.length}
               </Tag>
               <Tag style={tagstyle} color="#4caf50">
                 {students.length - selectedStudents.length}

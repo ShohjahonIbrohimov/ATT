@@ -250,6 +250,7 @@ const Sample = ({ searchInput }) => {
         data: { ...defaults, ...data, nationality: Number(data.nationality) },
         getOrders: () => {
           dispatch(getGroups({ onSuccess }));
+          setvisible(false);
         },
       })
     );
