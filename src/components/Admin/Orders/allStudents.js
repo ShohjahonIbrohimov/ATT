@@ -119,12 +119,6 @@ const StudentsTable = ({ searchInput }) => {
       key: "fullname",
       ...getColumnSearchProps("fullname"),
     },
-    {
-      title: "Foydalnuvchi nomi",
-      dataIndex: "username",
-      key: "username",
-      ...getColumnSearchProps("username"),
-    },
   ];
 
   useEffect(() => {

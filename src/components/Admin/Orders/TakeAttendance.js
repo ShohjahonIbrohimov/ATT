@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import GroupStudents from "./GroupStudents";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteStudent, getGroup } from "../../../redux/category/thunks";
+import { setSelected } from "../../../redux/students/studentSlice";
+import { RedoOutlined } from "@ant-design/icons";
 
 const TakeAttendance = () => {
   const [loading, setLoading] = useState(false);
@@ -16,7 +18,6 @@ const TakeAttendance = () => {
   );
 
   useEffect(() => {
-    setfetchGroupLoading(true);
     handleFetchGroup();
   }, []);
 
@@ -30,6 +31,7 @@ const TakeAttendance = () => {
   };
 
   const handleFetchGroup = (params) => {
+    setfetchGroupLoading(true);
     dispatch(getGroup({ id: currentGroup.id, onSuccess }));
   };
 
@@ -50,6 +52,13 @@ const TakeAttendance = () => {
 
   return (
     <div>
+      <Button
+        type="primary"
+        icon={<RedoOutlined />}
+        onClick={() => {
+          handleFetchGroup();
+        }}
+      />
       <GroupStudents
         loading={fetchGroupLoading}
         handleFetchGroup={handleFetchGroup}

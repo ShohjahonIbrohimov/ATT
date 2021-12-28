@@ -13,6 +13,7 @@ export const studentSlice = createSlice({
   initialState,
   reducers: {
     setSelected: (state, action) => {
+      console.log(action);
       state.selected = action.payload;
     },
   },

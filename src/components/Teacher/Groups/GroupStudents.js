@@ -15,20 +15,6 @@ const columns = [
       </a>
     ),
   },
-  {
-    title: "Holati",
-    dataIndex: "name",
-    render: (data, row) =>
-      row.use_device ? (
-        <Tag color="#87d068">
-          <CheckOutlined />
-        </Tag>
-      ) : (
-        <Tag color="#f50">
-          <CloseOutlined />
-        </Tag>
-      ),
-  },
 ];
 
 const GroupStudents = ({ handleFetchGroup, loading }) => {
@@ -37,6 +23,9 @@ const GroupStudents = ({ handleFetchGroup, loading }) => {
   const students = useSelector((state) => state?.teacherReducer?.students);
   const teachers = useSelector(
     (state) => state?.categoryReducer?.group?.teachers
+  );
+  const selectedStudents = useSelector(
+    (state) => state.studentReducer.selected
   );
 
   const currentGroup = useSelector(
@@ -64,6 +53,13 @@ const GroupStudents = ({ handleFetchGroup, loading }) => {
       })
     );
   };
+
+  useEffect(() => {
+    if (students.length) {
+      let out = students.filter((s) => !s.use_device).map((s) => s.id);
+      dispatch(setSelected(out));
+    }
+  }, [students]);
 
   return (
     <div>
@@ -101,11 +97,17 @@ const GroupStudents = ({ handleFetchGroup, loading }) => {
         loading={loading}
         rowSelection={{
           onChange: (selectedRowKeys, selectedRows) => {
+            console.log(selectedRowKeys);
             dispatch(setSelected(selectedRowKeys));
           },
+          selectedRowKeys: selectedStudents,
         }}
         columns={columns}
         dataSource={students}
+        scroll={true}
+        pagination={{
+          pageSize: 40,
+        }}
       />
       {/* </Badge.Ribbon> */}
     </div>

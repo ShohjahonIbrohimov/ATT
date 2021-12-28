@@ -27,8 +27,10 @@ export const categorySlice = createSlice({
   },
   extraReducers: {
     [getGroup.fulfilled.toString()]: (state, action) => {
-      console.log(action.payload);
       state.group = action.payload.res.data;
+    },
+    [getGroup.rejected.toString()]: (state, action) => {
+      state.group = null;
     },
     [getGroups.fulfilled.toString()]: (state, action) => {
       state.groups = action.payload.res.data;

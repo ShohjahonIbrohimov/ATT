@@ -1,7 +1,13 @@
 import React from "react";
 import { Modal } from "antd";
 
-const GModal = ({ children, visible, setvisible, title = "Modal" }) => {
+const GModal = ({
+  children,
+  visible,
+  setvisible,
+  title = "Modal",
+  className = "",
+}) => {
   const handleOk = () => {
     setvisible(false);
   };
@@ -12,6 +18,7 @@ const GModal = ({ children, visible, setvisible, title = "Modal" }) => {
 
   return (
     <Modal
+      className={className}
       title={title}
       visible={visible}
       onOk={handleOk}

@@ -272,43 +272,56 @@ const Sample = ({ searchInput }) => {
     settabValue(value);
   };
 
+  useEffect(() => {
+    if (!visible) {
+      settabValue(1);
+    }
+  }, [visible]);
+
   return (
     <div>
-      <GModal visible={visible} setvisible={setvisible} title={defaults?.name}>
-        {modal === 0 && (
-          <GForm
-            loading={addGrouploading}
-            defaults={defaults}
-            handleAddCategory={handleAddCategory}
-            handleUpdateCategory={handleUpdateCategory}
-            fields={fields}
-          />
-        )}
-        {modal === 1 && (
-          <React.Fragment>
-            <Space>
-              <Radio.Group
-                onChange={handleChange}
-                defaultValue={0}
-                buttonStyle="solid"
-              >
-                <Radio.Button value={2}>O'qituvchi qo'shish</Radio.Button>
-                <Radio.Button value={0}>Student qo'shish</Radio.Button>
-                <Radio.Button value={1}>Studentlar</Radio.Button>
-              </Radio.Group>
-            </Space>
-            <br />
-            <br />
-            {tabValue === 0 ? (
-              <AddStudent />
-            ) : tabValue === 1 ? (
-              <TakeAttendance />
-            ) : (
-              <Main />
-            )}
-          </React.Fragment>
-        )}
-      </GModal>
+      {visible && (
+        <GModal
+          className="teacher-cabinet"
+          visible={visible}
+          setvisible={setvisible}
+          title={defaults?.name}
+        >
+          {modal === 0 && (
+            <GForm
+              loading={addGrouploading}
+              defaults={defaults}
+              handleAddCategory={handleAddCategory}
+              handleUpdateCategory={handleUpdateCategory}
+              fields={fields}
+            />
+          )}
+          {modal === 1 && (
+            <React.Fragment>
+              <Space>
+                <Radio.Group
+                  onChange={handleChange}
+                  defaultValue={1}
+                  buttonStyle="solid"
+                >
+                  <Radio.Button value={2}>O'qituvchi qo'shish</Radio.Button>
+                  <Radio.Button value={0}>Student qo'shish</Radio.Button>
+                  <Radio.Button value={1}>Studentlar</Radio.Button>
+                </Radio.Group>
+              </Space>
+              <br />
+              <br />
+              {tabValue === 0 ? (
+                <AddStudent />
+              ) : tabValue === 1 ? (
+                <TakeAttendance />
+              ) : (
+                <Main />
+              )}
+            </React.Fragment>
+          )}
+        </GModal>
+      )}
 
       <Space style={{ marginBottom: "1rem" }}>
         <Button

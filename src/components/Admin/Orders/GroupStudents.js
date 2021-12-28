@@ -67,6 +67,10 @@ const GroupStudents = ({ handleFetchGroup, loading }) => {
     );
   };
 
+  useEffect(() => {
+    dispatch(setSelected([]));
+  }, []);
+
   return (
     <div>
       <Badge.Ribbon

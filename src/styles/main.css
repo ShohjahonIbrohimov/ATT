@@ -18,8 +18,13 @@ iframe {
   bottom: 0 !important;
   padding: 0;
   max-width: unset;
+  margin: 0px;
 }
 
 .teacher-cabinet .ant-modal-content {
-  height: 100%;
+}
+
+.teacher-cabinet .ant-modal-body {
+  height: 91.4vh;
+  overflow-y: auto;
 }

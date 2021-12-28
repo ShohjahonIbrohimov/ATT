@@ -75,18 +75,20 @@ const DashboardLayout = () => {
             {routes.map((route) => (
               <Route {...route} />
             ))}
-            <Route>
-              <div
-                style={{
-                  height: "85vh",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <h1 style={{ fontSize: "3rem" }}>404 Not found</h1>
-              </div>
-            </Route>
+            {routes.length && (
+              <Route>
+                <div
+                  style={{
+                    height: "85vh",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <h1 style={{ fontSize: "3rem" }}>404 Not found</h1>
+                </div>
+              </Route>
+            )}
           </Switch>
         </Content>
       </Layout>

@@ -110,12 +110,6 @@ const StudentsTable = ({ searchInput }) => {
       ...getColumnSearchProps("fullname"),
     },
     {
-      title: "Foydalnuvchi nomi",
-      dataIndex: "username",
-      key: "username",
-      ...getColumnSearchProps("username"),
-    },
-    {
       title: "Guruh turi",
       dataIndex: "nationality",
       ...getColumnSearchProps("nationality"),
@@ -140,6 +134,7 @@ const StudentsTable = ({ searchInput }) => {
 
   return (
     <div>
+      {console.log(students)}
       <Table
         size="small"
         rowKey="id"

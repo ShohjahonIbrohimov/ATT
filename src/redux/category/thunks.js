@@ -2,6 +2,23 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import baseurl from "../../utils/baseurl";
 import axios from "axios";
 
+const addMultipleStudentsToGroup = async (data) => {
+  let finalRes;
+  for (let i = 0; i < data.students.length; i++) {
+    let res = await axios({
+      url: `${baseurl}/control_system/addUserFromGroup/`,
+      method: "POST",
+      data: {
+        group: data.group,
+        user: data.students[i],
+      },
+    });
+    finalRes = res;
+  }
+
+  return finalRes;
+};
+
 // CREATE
 const createAsync = async (data, { rejectWithValue }) => {
   try {
@@ -23,12 +40,9 @@ export const create = createAsyncThunk("category/create", createAsync);
 
 // ADD STUDENT TO GROUP
 const addStudentAsync = async (data, { rejectWithValue }) => {
+  console.log(data);
   try {
-    const res = await axios({
-      url: `${baseurl}/control_system/addUserFromGroup/`,
-      method: "POST",
-      data: data.data,
-    });
+    const res = await addMultipleStudentsToGroup(data.data);
     data.setLoading(false);
     return { res };
   } catch (err) {
@@ -169,7 +183,12 @@ const getAttListAsync = async (setLoading, { rejectWithValue }) => {
       method: "GET",
     });
     setLoading(false);
-    return { res };
+    const arrUniq = [...new Map(res.data.map((v) => [v.user.id, v])).values()];
+    return {
+      res: {
+        data: arrUniq,
+      },
+    };
   } catch (err) {
     setLoading(false);
     // Handle Error Here

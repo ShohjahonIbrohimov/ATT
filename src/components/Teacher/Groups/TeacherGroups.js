@@ -1,56 +1,41 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Table, Button, message, Input, Space, Modal, Col, Row } from "antd";
+import { Table, Button, Input, Space, Modal, Col, Row, Tag } from "antd";
 import Highlighter from "react-highlight-words";
 import { SearchOutlined } from "@ant-design/icons";
-import base_url from "../../../utils/baseurl";
-import {
-  PlusOutlined,
-  DeleteOutlined,
-  EyeOutlined,
-  RedoOutlined,
-  LogoutOutlined,
-} from "@ant-design/icons";
-import GModal from "../../Reusable/GModal";
-import GForm from "../../Reusable/GForm";
-import fields from "./formFields.json";
-import {
-  create,
-  deleteCat,
-  update,
-  getGroup,
-  getGroups,
-} from "../../../redux/category/thunks";
+import { EyeOutlined, RedoOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import AddStudent from "./AddStudent";
 import { setCurrentGroup } from "../../../redux/category/categorySlice";
 import TakeAttendance from "./TakeAttendance";
-// import Main from "../Teachers/Main";
-import { getTeacher } from "../../../redux/teachers/thunks";
-import { logout } from "../../../redux/auth/authSlice";
+import { getTeacher, getTeacherStudents } from "../../../redux/teachers/thunks";
 
-const success = () => {
-  message.success("Success");
-};
-
-const error = () => {
-  message.error("Error");
+const tagstyle = {
+  marginRight: "2.5px",
+  height: "32px",
+  width: "32px",
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  fontSize: "18px",
+  padding: "0px",
 };
 
 const TeacherGroups = ({ searchInput }) => {
-  const [tabValue, settabValue] = useState(0);
   const [modal, setmodal] = useState(0);
-  const [orders, setorders] = useState([]);
   const [visible, setvisible] = useState(false);
   const [defaults, setdefaults] = useState(null);
   const [searchText, setsearchText] = useState("");
   const [searchedColumn, setsearchedColumn] = useState("");
   const [loading, setloading] = useState(false);
-  const [addGrouploading, setaddGrouploading] = useState(false);
+  const [groupStudentsLoading, setgroupStudentsLoading] = useState(false);
   const dispatch = useDispatch();
-
-  const group = useSelector((state) => state.categoryReducer.group);
+  const selectedStudents = useSelector(
+    (state) => state.studentReducer.selected
+  );
   const groups = useSelector((state) => state.teacherReducer.groups);
+  const students = useSelector((state) => state?.teacherReducer?.students);
+  const currentGroup = useSelector(
+    (state) => state?.categoryReducer?.currentGroup
+  );
 
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -182,23 +167,6 @@ const TeacherGroups = ({ searchInput }) => {
     setvisible(true);
   };
 
-  const getOrders = () => {
-    setloading(true);
-    axios({
-      url: `${base_url}/control_system/group/`,
-      method: "GET",
-    }).then((res) => {
-      setloading(false);
-      setorders(res.data);
-      setaddGrouploading(false);
-    });
-  };
-
-  const onSuccess = () => {
-    setloading(false);
-    setaddGrouploading(false);
-  };
-
   useEffect(() => {
     if (!groups.length) {
       setloading(true);
@@ -206,48 +174,22 @@ const TeacherGroups = ({ searchInput }) => {
     }
   }, []);
 
-  const handleAddCategory = (data) => {
-    setaddGrouploading(true);
-    dispatch(
-      create({
-        data: { ...data, nationality: Number(data.nationality) },
-        getOrders: () => {
-          dispatch(getGroups({ onSuccess }));
-        },
-      })
-    );
-  };
-
-  const handleUpdateCategory = (data) => {
-    setloading(true);
-    dispatch(
-      update({
-        data: { ...defaults, ...data, nationality: Number(data.nationality) },
-        getOrders: () => {
-          dispatch(getGroups({ onSuccess }));
-        },
-      })
-    );
-  };
-
-  const handleDeleteCategory = (data) => {
-    setloading(true);
-    dispatch(
-      deleteCat({
-        data,
-        getOrders: () => {
-          dispatch(getGroups({ onSuccess }));
-        },
-      })
-    );
-  };
-
   const handleOk = () => {
     setvisible(false);
   };
 
   const handleCancel = () => {
     setvisible(false);
+  };
+
+  const handleFetchGroup = (params) => {
+    setgroupStudentsLoading(true);
+    dispatch(
+      getTeacherStudents({
+        id: currentGroup.id,
+        setLoading: setgroupStudentsLoading,
+      })
+    );
   };
 
   return (
@@ -258,9 +200,33 @@ const TeacherGroups = ({ searchInput }) => {
         onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
-        title={defaults?.name}
+        title={
+          <Space>
+            <span>{defaults?.name}</span>
+            <div>
+              <Tag style={tagstyle} color="#f44336">
+                {selectedStudents.length}
+              </Tag>
+              <Tag style={tagstyle} color="#4caf50">
+                {students.length - selectedStudents.length}
+              </Tag>
+            </div>
+            <Button
+              type="primary"
+              icon={<RedoOutlined />}
+              onClick={() => {
+                handleFetchGroup();
+              }}
+            />
+          </Space>
+        }
       >
-        <TakeAttendance defaults={defaults} />
+        <TakeAttendance
+          handleFetchGroup={handleFetchGroup}
+          loading={groupStudentsLoading}
+          setloading={setgroupStudentsLoading}
+          defaults={defaults}
+        />
       </Modal>
       <Row justify="space-between">
         <Col>

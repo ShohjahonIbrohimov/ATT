@@ -21,11 +21,13 @@ const AddStudent = () => {
   };
 
   const handleAddStudent = () => {
+    console.log("object");
     setaddStudentLoading(true);
+
     dispatch(
       addStudent({
         data: {
-          user: selectedStudents[0],
+          students: selectedStudents,
           group: currentGroup?.id,
         },
         setLoading: onSuccess,
